@@ -24,18 +24,21 @@
   #splash.fuera{opacity:0;pointer-events:none}
   #offline{display:none;position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));padding:12px 14px;border-radius:10px;
     background:#2a1416;border:1px solid #d9665f;color:#ffd3cf;font:14px system-ui,sans-serif;z-index:6;text-align:center}
+  #ayuda{display:none;position:fixed;left:16px;right:16px;top:calc(60% + 40px);padding:12px;border-radius:10px;border:1px solid #c9a44c;color:#e8cf8a;font:14px system-ui,sans-serif;text-align:center;text-decoration:none;z-index:7;background:rgba(7,13,31,.9)}
   @keyframes pulso{50%{transform:scale(1.05)}}
 </style>
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><div>TESORERÍA C∴C∴</div><small>Abriendo el Templo…</small></div>
+<a id="ayuda" target="_blank" rel="noopener" href="https://script.google.com/a/macros/colegioconcepcionlinares.cl/s/AKfycbwKsl3fv28v_GHBtbKM1-yOJls1HKg4mm_vs6BcxXS89NbZLIgDJ9hisObc5imViI4Z/exec">¿No carga? Toca aquí para iniciar sesión con tu cuenta del colegio y vuelve a abrir la app.</a>
 <div id="offline">Sin conexión a internet. La Tesorería necesita conexión para cargar los datos.</div>
 <iframe id="app" title="Tesorería C∴C∴" allow="clipboard-write"
-  src="https://script.google.com/macros/s/AKfycbwKsl3fv28v_GHBtbKM1-yOJls1HKg4mm_vs6BcxXS89NbZLIgDJ9hisObc5imViI4Z/exec"></iframe>
+  src="https://script.google.com/a/macros/colegioconcepcionlinares.cl/s/AKfycbwKsl3fv28v_GHBtbKM1-yOJls1HKg4mm_vs6BcxXS89NbZLIgDJ9hisObc5imViI4Z/exec"></iframe>
 <script>
   const sp=document.getElementById('splash'),off=document.getElementById('offline');
   document.getElementById('app').addEventListener('load',()=>setTimeout(()=>sp.classList.add('fuera'),400));
-  setTimeout(()=>sp.classList.add('fuera'),9000);
+  let cargo=false;document.getElementById('app').addEventListener('load',()=>cargo=true);
+  setTimeout(()=>{if(!cargo)document.getElementById('ayuda').style.display='block';sp.classList.add('fuera')},12000);
   const red=()=>off.style.display=navigator.onLine?'none':'block';
   addEventListener('online',red);addEventListener('offline',red);red();
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
