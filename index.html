@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tesorería C∴C∴</title>
+<meta name="theme-color" content="#070d1f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tesorería">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  html,body{margin:0;height:100%;background:#070d1f;overflow:hidden}
+  body{padding-top:env(safe-area-inset-top)}
+  iframe{position:fixed;inset:env(safe-area-inset-top) 0 0 0;width:100%;height:calc(100% - env(safe-area-inset-top));border:0;background:#070d1f}
+  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    background:radial-gradient(ellipse at 50% 35%,#1b2a5c 0%,#0a1230 55%,#060b1b 100%);color:#e8cf8a;
+    font-family:Georgia,serif;letter-spacing:.2em;z-index:5;transition:opacity .5s}
+  #splash img{width:112px;height:112px;border-radius:26px;box-shadow:0 0 40px rgba(232,207,138,.35);animation:pulso 2s ease-in-out infinite}
+  #splash small{color:#8f98b3;font-family:system-ui,sans-serif;letter-spacing:.05em}
+  #splash.fuera{opacity:0;pointer-events:none}
+  #offline{display:none;position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));padding:12px 14px;border-radius:10px;
+    background:#2a1416;border:1px solid #d9665f;color:#ffd3cf;font:14px system-ui,sans-serif;z-index:6;text-align:center}
+  @keyframes pulso{50%{transform:scale(1.05)}}
+</style>
+</head>
+<body>
+<div id="splash"><img src="icon-192.png" alt=""><div>TESORERÍA C∴C∴</div><small>Abriendo el Templo…</small></div>
+<div id="offline">Sin conexión a internet. La Tesorería necesita conexión para cargar los datos.</div>
+<iframe id="app" title="Tesorería C∴C∴" allow="clipboard-write"
+  src="https://script.google.com/macros/s/AKfycbwKsl3fv28v_GHBtbKM1-yOJls1HKg4mm_vs6BcxXS89NbZLIgDJ9hisObc5imViI4Z/exec"></iframe>
+<script>
+  const sp=document.getElementById('splash'),off=document.getElementById('offline');
+  document.getElementById('app').addEventListener('load',()=>setTimeout(()=>sp.classList.add('fuera'),400));
+  setTimeout(()=>sp.classList.add('fuera'),9000);
+  const red=()=>off.style.display=navigator.onLine?'none':'block';
+  addEventListener('online',red);addEventListener('offline',red);red();
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
